@@ -43,11 +43,13 @@ class InputFormat(str, Enum):
     XML_USPTO = "xml_uspto"
     XML_JATS = "xml_jats"
     JSON_DOCLING = "json_docling"
+    JSONL_DOCLING = "jsonl_docling"
 
 
 class OutputFormat(str, Enum):
     MARKDOWN = "md"
     JSON = "json"
+    JSONL = "jsonl"
     HTML = "html"
     TEXT = "text"
     DOCTAGS = "doctags"
@@ -66,6 +68,8 @@ FormatToExtensions: Dict[InputFormat, List[str]] = {
     InputFormat.XLSX: ["xlsx"],
     InputFormat.XML_USPTO: ["xml", "txt"],
     InputFormat.JSON_DOCLING: ["json"],
+    InputFormat.JSONL_DOCLING: ["jsonl"],
+
 }
 
 FormatToMimeType: Dict[InputFormat, List[str]] = {
@@ -96,6 +100,8 @@ FormatToMimeType: Dict[InputFormat, List[str]] = {
     ],
     InputFormat.XML_USPTO: ["application/xml", "text/plain"],
     InputFormat.JSON_DOCLING: ["application/json"],
+    InputFormat.JSONL_DOCLING: ["application/jsonl"],
+
 }
 
 MimeTypeToFormat: dict[str, list[InputFormat]] = {
