@@ -14,6 +14,7 @@ from docling.backend.csv_backend import CsvDocumentBackend
 from docling.backend.docling_parse_v2_backend import DoclingParseV2DocumentBackend
 from docling.backend.html_backend import HTMLDocumentBackend
 from docling.backend.json.docling_json_backend import DoclingJSONBackend
+from docling.backend.jsonl_backend import DoclingJSONLBackend
 from docling.backend.md_backend import MarkdownDocumentBackend
 from docling.backend.msexcel_backend import MsExcelDocumentBackend
 from docling.backend.mspowerpoint_backend import MsPowerpointDocumentBackend
@@ -154,6 +155,9 @@ def _get_default_option(format: InputFormat) -> FormatOption:
         ),
         InputFormat.JSON_DOCLING: FormatOption(
             pipeline_cls=SimplePipeline, backend=DoclingJSONBackend
+        ),
+        InputFormat.JSONL_DOCLING: FormatOption(
+            pipeline_cls=SimplePipeline, backend=DoclingJSONLBackend
         ),
     }
     if (options := format_to_default_options.get(format)) is not None:
