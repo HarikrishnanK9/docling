@@ -100,7 +100,7 @@ FormatToMimeType: Dict[InputFormat, List[str]] = {
     ],
     InputFormat.XML_USPTO: ["application/xml", "text/plain"],
     InputFormat.JSON_DOCLING: ["application/json"],
-    InputFormat.JSONL_DOCLING: ["application/jsonl"],
+    InputFormat.JSONL_DOCLING: ["application/x-ndjson"],
 
 }
 
