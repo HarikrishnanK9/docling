@@ -9,6 +9,7 @@ from docling_core.types.doc import (
     Size,
     TableCell,
 )
+from docling_core.types.doc.page import SegmentedPdfPage, TextCell
 from docling_core.types.io import (  # DO ΝΟΤ REMOVE; explicitly exposed from this location
     DocumentStream,
 )
@@ -129,14 +130,10 @@ class ErrorItem(BaseModel):
     error_message: str
 
 
-class Cell(BaseModel):
-    id: int
-    text: str
-    bbox: BoundingBox
-
-
-class OcrCell(Cell):
-    confidence: float
+# class Cell(BaseModel):
+#    id: int
+#    text: str
+#    bbox: BoundingBox
 
 
 class Cluster(BaseModel):
@@ -144,7 +141,7 @@ class Cluster(BaseModel):
     label: DocItemLabel
     bbox: BoundingBox
     confidence: float = 1.0
-    cells: List[Cell] = []
+    cells: List[TextCell] = []
     children: List["Cluster"] = []  # Add child cluster support
 
 
@@ -232,7 +229,8 @@ class Page(BaseModel):
     page_no: int
     # page_hash: Optional[str] = None
     size: Optional[Size] = None
-    cells: List[Cell] = []
+    cells: List[TextCell] = []
+    parsed_page: Optional[SegmentedPdfPage] = None
     predictions: PagePredictions = PagePredictions()
     assembled: Optional[AssembledUnit] = None
 

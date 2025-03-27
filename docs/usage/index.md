@@ -17,10 +17,15 @@ print(result.document.export_to_markdown())  # output: "### Docling Technical Re
 
 You can also use Docling directly from your command line to convert individual files —be it local or by URL— or whole directories.
 
-A simple example would look like this:
 ```console
 docling https://arxiv.org/pdf/2206.01062
 ```
+You can also use 🥚[SmolDocling](https://huggingface.co/ds4sd/SmolDocling-256M-preview) and other VLMs via Docling CLI:
+```bash
+docling --pipeline vlm --vlm-model smoldocling https://arxiv.org/pdf/2206.01062
+```
+This will use MLX acceleration on supported Apple Silicon hardware.
+
 
 To see all available options (export formats etc.) run `docling --help`. More details in the [CLI reference page](../reference/cli.md).
 
@@ -69,6 +74,13 @@ Or using the CLI:
 
 ```sh
 docling --artifacts-path="/local/path/to/models" FILE
+```
+
+Or using the `DOCLING_ARTIFACTS_PATH` environment variable:
+
+```sh
+export DOCLING_ARTIFACTS_PATH="/local/path/to/models"
+python my_docling_script.py
 ```
 
 #### Using remote services
@@ -128,7 +140,7 @@ doc_converter = DocumentConverter(
 )
 ```
 
-Since docling 1.16.0: You can control which TableFormer mode you want to use. Choose between `TableFormerMode.FAST` (default) and `TableFormerMode.ACCURATE` (better, but slower) to receive better quality with difficult table structures.
+Since docling 1.16.0: You can control which TableFormer mode you want to use. Choose between `TableFormerMode.FAST` (faster but less accurate) and `TableFormerMode.ACCURATE` (default) to receive better quality with difficult table structures.
 
 ```python
 from docling.datamodel.base_models import InputFormat

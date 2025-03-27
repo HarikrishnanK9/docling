@@ -134,7 +134,7 @@ class HTMLDocumentBackend(DeclarativeDocumentBackend):
                     self.analyze_tag(cast(Tag, element), doc)
                 except Exception as exc_child:
                     _log.error(
-                        f"Error processing child from tag{tag.name}: {exc_child}"
+                        f"Error processing child from tag {tag.name}: {repr(exc_child)}"
                     )
                     raise exc_child
             elif isinstance(element, NavigableString) and not isinstance(
@@ -206,9 +206,9 @@ class HTMLDocumentBackend(DeclarativeDocumentBackend):
         hlevel = int(element.name.replace("h", ""))
         text = element.text.strip()
 
-        if hlevel == 1:
-            self.content_layer = ContentLayer.BODY
+        self.content_layer = ContentLayer.BODY
 
+        if hlevel == 1:
             for key in self.parents.keys():
                 self.parents[key] = None
 
@@ -243,7 +243,7 @@ class HTMLDocumentBackend(DeclarativeDocumentBackend):
             self.parents[hlevel] = doc.add_heading(
                 parent=self.parents[hlevel - 1],
                 text=text,
-                level=hlevel,
+                level=hlevel - 1,
                 content_layer=self.content_layer,
             )
 
@@ -347,11 +347,11 @@ class HTMLDocumentBackend(DeclarativeDocumentBackend):
                     content_layer=self.content_layer,
                 )
                 self.level += 1
-
-            self.walk(element, doc)
-
-            self.parents[self.level + 1] = None
-            self.level -= 1
+                self.walk(element, doc)
+                self.parents[self.level + 1] = None
+                self.level -= 1
+            else:
+                self.walk(element, doc)
 
         elif element.text.strip():
             text = element.text.strip()
@@ -457,7 +457,7 @@ class HTMLDocumentBackend(DeclarativeDocumentBackend):
                     end_row_offset_idx=row_idx + row_span,
                     start_col_offset_idx=col_idx,
                     end_col_offset_idx=col_idx + col_span,
-                    col_header=col_header,
+                    column_header=col_header,
                     row_header=((not col_header) and html_cell.name == "th"),
                 )
                 data.table_cells.append(table_cell)
